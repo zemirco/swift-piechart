@@ -6,7 +6,7 @@ Piechart library for iOS written in Swift.
 ## Usage
 
 ```swift
-var total: CGFloat = 16
+var total: CGFloat = 20
 
 var error = Piechart.Slice()
 error.value = 4 / total
