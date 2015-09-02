@@ -25,18 +25,18 @@ class ViewController: UIViewController, PiechartDelegate {
         win.color = UIColor.orangeColor()
         win.text = "Winner"
         
-        var piechart = Piechart()
+        let piechart = Piechart()
         piechart.delegate = self
         piechart.title = "Service"
         piechart.activeSlice = 2
         piechart.layer.borderWidth = 1
         piechart.slices = [error, zero, win]
         
-        piechart.setTranslatesAutoresizingMaskIntoConstraints(false)
+        piechart.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(piechart)
         views["piechart"] = piechart
-        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-[piechart]-|", options: nil, metrics: nil, views: views))
-        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-200-[piechart(==200)]", options: nil, metrics: nil, views: views))
+        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-[piechart]-|", options: [], metrics: nil, views: views))
+        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-200-[piechart(==200)]", options: [], metrics: nil, views: views))
         
     }
 

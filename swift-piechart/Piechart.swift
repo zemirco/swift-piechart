@@ -71,7 +71,7 @@ public class Piechart: UIControl {
     /**
      * methods
      */
-    required public init(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
@@ -85,7 +85,7 @@ public class Piechart: UIControl {
         titleLabel.text = title
         titleLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
         titleLabel.textAlignment = .Center
-        titleLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(titleLabel)
         
         subtitleLabel = UILabel()
@@ -93,7 +93,7 @@ public class Piechart: UIControl {
         subtitleLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleCaption1)
         subtitleLabel.textColor = UIColor.grayColor()
         subtitleLabel.textAlignment = .Center
-        subtitleLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
+        subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(subtitleLabel)
         
         infoLabel = UILabel()
@@ -101,7 +101,7 @@ public class Piechart: UIControl {
         infoLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleCaption1)
         infoLabel.textColor = UIColor.grayColor()
         infoLabel.textAlignment = .Center
-        infoLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
+        infoLabel.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(infoLabel)
         
         self.addConstraint(NSLayoutConstraint(item: titleLabel, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1, constant: 0))
@@ -121,19 +121,19 @@ public class Piechart: UIControl {
     public override func drawRect(rect: CGRect) {
         super.drawRect(rect)
 
-        var center = CGPoint(x: bounds.width / 2, y: bounds.height / 2)
+        let center = CGPoint(x: bounds.width / 2, y: bounds.height / 2)
         var startValue: CGFloat = 0
         var startAngle: CGFloat = 0
         var endValue: CGFloat = 0
         var endAngle: CGFloat = 0
         
-        for (index, slice) in enumerate(slices) {
+        for (index, slice) in slices.enumerate() {
             
             startAngle = (startValue * 2 * CGFloat(M_PI)) - CGFloat(M_PI_2)
             endValue = startValue + slice.value
             endAngle = (endValue * 2 * CGFloat(M_PI)) - CGFloat(M_PI_2)
             
-            var path = UIBezierPath()
+            let path = UIBezierPath()
             path.moveToPoint(center)
             path.addArcWithCenter(center, radius: radius.outer, startAngle: startAngle, endAngle: endAngle, clockwise: true)
             
@@ -155,7 +155,7 @@ public class Piechart: UIControl {
         }
         
         // create center donut hole
-        var innerPath = UIBezierPath()
+        let innerPath = UIBezierPath()
         innerPath.moveToPoint(center)
         innerPath.addArcWithCenter(center, radius: radius.inner, startAngle: 0, endAngle: CGFloat(M_PI) * 2, clockwise: true)
         UIColor.whiteColor().setFill()
