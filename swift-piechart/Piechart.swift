@@ -3,8 +3,8 @@ import UIKit
 
 
 public protocol PiechartDelegate {
-    func setSubtitle(slice: Piechart.Slice) -> String
-    func setInfo(slice: Piechart.Slice) -> String
+    func setSubtitle(total: CGFloat, slice: Piechart.Slice) -> String
+    func setInfo(total: CGFloat, slice: Piechart.Slice) -> String
 }
 
 
@@ -37,6 +37,7 @@ public class Piechart: UIControl {
     private var titleLabel: UILabel!
     private var subtitleLabel: UILabel!
     private var infoLabel: UILabel!
+    private var total: CGFloat!
     
     
     /**
@@ -64,7 +65,14 @@ public class Piechart: UIControl {
         }
     }
     
-    public var slices: [Slice] = []
+    public var slices: [Slice] = [] {
+        didSet {
+            total = 0
+            for slice in slices {
+                total = slice.value + total
+            }
+        }
+    }
     
     
     
@@ -140,8 +148,8 @@ public class Piechart: UIControl {
             var color = UIColor(red: 230/255.0, green: 230/255.0, blue: 230/255.0, alpha: 1)
             if (index == activeSlice) {
                 color = slice.color
-                subtitle = delegate?.setSubtitle(slice) ?? "subtitle"
-                info = delegate?.setInfo(slice) ?? "info"
+                subtitle = delegate?.setSubtitle(self.total, slice: slice) ?? "subtitle"
+                info = delegate?.setInfo(self.total, slice: slice) ?? "info"
             }
             color.setFill()
             path.fill()

@@ -3,7 +3,7 @@ import UIKit
 
 class ViewController: UIViewController, PiechartDelegate {
     
-    var total: CGFloat = 20
+    var sum: CGFloat = 20
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -11,17 +11,17 @@ class ViewController: UIViewController, PiechartDelegate {
         var views: [String: UIView] = [:]
         
         var error = Piechart.Slice()
-        error.value = 4 / total
+        error.value = 4 / sum
         error.color = UIColor.magentaColor()
         error.text = "Error"
         
         var zero = Piechart.Slice()
-        zero.value = 6 / total
+        zero.value = 6 / sum
         zero.color = UIColor.blueColor()
         zero.text = "Zero"
         
         var win = Piechart.Slice()
-        win.value = 10 / total
+        win.value = 10 / sum
         win.color = UIColor.orangeColor()
         win.text = "Winner"
         
@@ -44,11 +44,11 @@ class ViewController: UIViewController, PiechartDelegate {
         super.didReceiveMemoryWarning()
     }
     
-    func setSubtitle(slice: Piechart.Slice) -> String {
+    func setSubtitle(total: CGFloat, slice: Piechart.Slice) -> String {
         return "\(Int(slice.value * 100))% \(slice.text)"
     }
     
-    func setInfo(slice: Piechart.Slice) -> String {
+    func setInfo(total: CGFloat, slice: Piechart.Slice) -> String {
         return "\(Int(slice.value * total))/\(Int(total))"
     }
 
