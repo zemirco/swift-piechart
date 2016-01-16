@@ -138,7 +138,7 @@ public class Piechart: UIControl {
         for (index, slice) in slices.enumerate() {
             
             startAngle = (startValue * 2 * CGFloat(M_PI)) - CGFloat(M_PI_2)
-            endValue = startValue + slice.value
+            endValue = startValue + (slice.value / self.total)
             endAngle = (endValue * 2 * CGFloat(M_PI)) - CGFloat(M_PI_2)
             
             let path = UIBezierPath()
@@ -159,7 +159,7 @@ public class Piechart: UIControl {
             path.stroke()
             
             // increase start value for next slice
-            startValue += slice.value
+            startValue += slice.value / self.total
         }
         
         // create center donut hole
