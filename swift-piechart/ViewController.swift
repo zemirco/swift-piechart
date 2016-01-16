@@ -49,7 +49,7 @@ class ViewController: UIViewController, PiechartDelegate {
     }
     
     func setInfo(total: CGFloat, slice: Piechart.Slice) -> String {
-        return "\(Int(slice.value * total))/\(Int(total))"
+        return "\(Int(slice.value * sum))/\(Int(total * sum))"
     }
 
 
