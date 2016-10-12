@@ -3,8 +3,8 @@ import UIKit
 
 
 public protocol PiechartDelegate {
-    func setSubtitle(total: CGFloat, slice: Piechart.Slice) -> String
-    func setInfo(total: CGFloat, slice: Piechart.Slice) -> String
+    func setSubtitle(_ total: CGFloat, slice: Piechart.Slice) -> String
+    func setInfo(_ total: CGFloat, slice: Piechart.Slice) -> String
 }
 
 
@@ -12,7 +12,7 @@ public protocol PiechartDelegate {
 /**
  * Piechart
  */
-public class Piechart: UIControl {
+open class Piechart: UIControl {
     
     /**
      * Slice
@@ -34,38 +34,38 @@ public class Piechart: UIControl {
     /**
      * private
      */
-    private var titleLabel: UILabel!
-    private var subtitleLabel: UILabel!
-    private var infoLabel: UILabel!
-    private var total: CGFloat!
+    fileprivate var titleLabel: UILabel!
+    fileprivate var subtitleLabel: UILabel!
+    fileprivate var infoLabel: UILabel!
+    fileprivate var total: CGFloat!
     
     
     /**
      * public
      */
-    public var radius: Radius = Radius()
-    public var activeSlice: Int = 0
-    public var delegate: PiechartDelegate?
+    open var radius: Radius = Radius()
+    open var activeSlice: Int = 0
+    open var delegate: PiechartDelegate?
     
-    public var title: String = "title" {
+    open var title: String = "title" {
         didSet {
             titleLabel.text = title
         }
     }
     
-    public var subtitle: String = "subtitle" {
+    open var subtitle: String = "subtitle" {
         didSet {
             subtitleLabel.text = subtitle
         }
     }
     
-    public var info: String = "info" {
+    open var info: String = "info" {
         didSet {
             infoLabel.text = info
         }
     }
     
-    public var slices: [Slice] = [] {
+    open var slices: [Slice] = [] {
         didSet {
             total = 0
             for slice in slices {
@@ -85,49 +85,49 @@ public class Piechart: UIControl {
     
     override public init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = UIColor.clearColor()
+        self.backgroundColor = UIColor.clear
         
-        self.addTarget(self, action: "click", forControlEvents: .TouchUpInside)
+        self.addTarget(self, action: #selector(Piechart.click), for: .touchUpInside)
         
         titleLabel = UILabel()
         titleLabel.text = title
-        titleLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
-        titleLabel.textAlignment = .Center
+        titleLabel.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.headline)
+        titleLabel.textAlignment = .center
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(titleLabel)
         
         subtitleLabel = UILabel()
         subtitleLabel.text = subtitle
-        subtitleLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleCaption1)
-        subtitleLabel.textColor = UIColor.grayColor()
-        subtitleLabel.textAlignment = .Center
+        subtitleLabel.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.caption1)
+        subtitleLabel.textColor = UIColor.gray
+        subtitleLabel.textAlignment = .center
         subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(subtitleLabel)
         
         infoLabel = UILabel()
         infoLabel.text = subtitle
-        infoLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleCaption1)
-        infoLabel.textColor = UIColor.grayColor()
-        infoLabel.textAlignment = .Center
+        infoLabel.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.caption1)
+        infoLabel.textColor = UIColor.gray
+        infoLabel.textAlignment = .center
         infoLabel.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(infoLabel)
         
-        self.addConstraint(NSLayoutConstraint(item: titleLabel, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1, constant: 0))
-        self.addConstraint(NSLayoutConstraint(item: titleLabel, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1, constant: 0))
+        self.addConstraint(NSLayoutConstraint(item: titleLabel, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0))
+        self.addConstraint(NSLayoutConstraint(item: titleLabel, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0))
         
-        self.addConstraint(NSLayoutConstraint(item: subtitleLabel, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1, constant: 0))
-        self.addConstraint(NSLayoutConstraint(item: subtitleLabel, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1, constant: 0))
+        self.addConstraint(NSLayoutConstraint(item: subtitleLabel, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0))
+        self.addConstraint(NSLayoutConstraint(item: subtitleLabel, attribute: .top, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0))
         
-        self.addConstraint(NSLayoutConstraint(item: infoLabel, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1, constant: 0))
-        self.addConstraint(NSLayoutConstraint(item: infoLabel, attribute: .Top, relatedBy: .Equal, toItem: subtitleLabel, attribute: .Bottom, multiplier: 1, constant: 0))
+        self.addConstraint(NSLayoutConstraint(item: infoLabel, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0))
+        self.addConstraint(NSLayoutConstraint(item: infoLabel, attribute: .top, relatedBy: .equal, toItem: subtitleLabel, attribute: .bottom, multiplier: 1, constant: 0))
     }
     
     convenience init() {
-        self.init(frame: CGRectZero)
+        self.init(frame: CGRect.zero)
     }
     
-    public override func drawRect(rect: CGRect) {
-        super.drawRect(rect)
+    open override func draw(_ rect: CGRect) {
+        super.draw(rect)
 
         let center = CGPoint(x: bounds.width / 2, y: bounds.height / 2)
         var startValue: CGFloat = 0
@@ -135,15 +135,15 @@ public class Piechart: UIControl {
         var endValue: CGFloat = 0
         var endAngle: CGFloat = 0
         
-        for (index, slice) in slices.enumerate() {
+        for (index, slice) in slices.enumerated() {
             
             startAngle = (startValue * 2 * CGFloat(M_PI)) - CGFloat(M_PI_2)
             endValue = startValue + (slice.value / self.total)
             endAngle = (endValue * 2 * CGFloat(M_PI)) - CGFloat(M_PI_2)
             
             let path = UIBezierPath()
-            path.moveToPoint(center)
-            path.addArcWithCenter(center, radius: radius.outer, startAngle: startAngle, endAngle: endAngle, clockwise: true)
+            path.move(to: center)
+            path.addArc(withCenter: center, radius: radius.outer, startAngle: startAngle, endAngle: endAngle, clockwise: true)
             
             var color = UIColor(red: 230/255.0, green: 230/255.0, blue: 230/255.0, alpha: 1)
             if (index == activeSlice) {
@@ -155,7 +155,7 @@ public class Piechart: UIControl {
             path.fill()
             
             // add white border to slice
-            UIColor.whiteColor().setStroke()
+            UIColor.white.setStroke()
             path.stroke()
             
             // increase start value for next slice
@@ -164,9 +164,9 @@ public class Piechart: UIControl {
         
         // create center donut hole
         let innerPath = UIBezierPath()
-        innerPath.moveToPoint(center)
-        innerPath.addArcWithCenter(center, radius: radius.inner, startAngle: 0, endAngle: CGFloat(M_PI) * 2, clockwise: true)
-        UIColor.whiteColor().setFill()
+        innerPath.move(to: center)
+        innerPath.addArc(withCenter: center, radius: radius.inner, startAngle: 0, endAngle: CGFloat(M_PI) * 2, clockwise: true)
+        UIColor.white.setFill()
         innerPath.fill()
     }
     
