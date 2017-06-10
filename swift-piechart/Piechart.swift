@@ -137,9 +137,9 @@ open class Piechart: UIControl {
         
         for (index, slice) in slices.enumerated() {
             
-            startAngle = (startValue * 2 * CGFloat(M_PI)) - CGFloat(M_PI_2)
+            startAngle = (startValue * 2 * CGFloat(Double.pi)) - CGFloat(Double.pi / 2)
             endValue = startValue + (slice.value / self.total)
-            endAngle = (endValue * 2 * CGFloat(M_PI)) - CGFloat(M_PI_2)
+            endAngle = (endValue * 2 * CGFloat(Double.pi)) - CGFloat(Double.pi / 2)
             
             let path = UIBezierPath()
             path.move(to: center)
@@ -165,7 +165,7 @@ open class Piechart: UIControl {
         // create center donut hole
         let innerPath = UIBezierPath()
         innerPath.move(to: center)
-        innerPath.addArc(withCenter: center, radius: radius.inner, startAngle: 0, endAngle: CGFloat(M_PI) * 2, clockwise: true)
+        innerPath.addArc(withCenter: center, radius: radius.inner, startAngle: 0, endAngle: CGFloat(Double.pi) * 2, clockwise: true)
         UIColor.white.setFill()
         innerPath.fill()
     }
